@@ -3,8 +3,6 @@ const express = require('express');
 const app = express();
 
 const PORT = '8007';
-<<<<<<< Updated upstream
-=======
 
 const fs = require('fs');
 
@@ -28,4 +26,3 @@ app.get('/teams', (req, res) => {
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
 });
->>>>>>> Stashed changes
