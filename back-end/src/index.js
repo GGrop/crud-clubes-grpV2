@@ -44,13 +44,11 @@ function createNewTeam(name, tla, country, adress, website, image, founded) {
   return newTeam;
 }
 
-app.post('/new-team', (req, res) => {
 app.post('/new-team', upload.single('shield'), (req, res) => {
   const dataTeams = getTeams();
   const {
     name, tla, country, adress, website, founded,
   } = req.body;
-  const newTeam = createNewTeam(name, tla, country, adress, website, founded, getTeams());
   const image = req.file.filename;
   console.log(image);
   const newTeam = createNewTeam(name, tla, country, adress, website, founded, image, getTeams());
