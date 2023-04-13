@@ -23,7 +23,7 @@ function getTeams() {
   return dataTeams;
 }
 
-function createNewTeam(name, tla, country, adress, website, image, founded) {
+function createNewTeam(name, tla, country, adress, website, founded, image) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
@@ -38,8 +38,8 @@ function createNewTeam(name, tla, country, adress, website, image, founded) {
     },
     adress,
     website,
-    crestUrl: `/shields/${image}`,
     founded,
+    crestUrl: `/shields/${image}`,
   };
   return newTeam;
 }
