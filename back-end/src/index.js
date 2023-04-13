@@ -50,7 +50,6 @@ app.post('/new-team', upload.single('shield'), (req, res) => {
     name, tla, country, adress, website, founded,
   } = req.body;
   const image = req.file.filename;
-  console.log(image);
   const newTeam = createNewTeam(name, tla, country, adress, website, founded, image, getTeams());
   if (!newTeam) {
     console.log('mostrar error');
