@@ -13,7 +13,17 @@ const upload = multer({ dest: './uploads/shields' });
 app.use(express.json());
 app.use(express.static(`${__dirname}/uploads`));
 
-function createNewTeam(name, tla, country, adress, website, founded) {
+function getTeams() {
+  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
+  const teamsLength = teams.length;
+  const dataTeams = {
+    teams,
+    length: teamsLength,
+  };
+  return dataTeams;
+}
+
+function createNewTeam(name, tla, country, adress, website, image, founded) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
@@ -51,16 +61,6 @@ app.post('/new-team', (req, res) => {
   }
 });
 // bucle infinito en testing
-
-function getTeams() {
-  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
-  const teamsLength = teams.length;
-  const dataTeams = {
-    teams,
-    length: teamsLength,
-  };
-  return dataTeams;
-}
 
 app.get('/teams', (req, res) => {
   const dataTeams = getTeams();
