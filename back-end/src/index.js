@@ -8,23 +8,6 @@ const fs = require('fs');
 
 app.use(express.json());
 
-function getTeams() {
-  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
-  const teamsLength = teams.length;
-  const dataTeams = {
-    teams,
-    length: teamsLength,
-  };
-  return dataTeams;
-}
-
-app.get('/teams', (req, res) => {
-  const dataTeams = getTeams();
-  res.status(200).json({
-    dataTeams,
-  });
-});
-
 function createNewTeam(name, tla, country, adress, website, founded) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
@@ -62,7 +45,29 @@ app.post('/new-team', (req, res) => {
     });
   }
 });
-//bucle infinito en testing
+// bucle infinito en testing
+
+function getTeams() {
+  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
+  const teamsLength = teams.length;
+  const dataTeams = {
+    teams,
+    length: teamsLength,
+  };
+  return dataTeams;
+}
+
+app.get('/teams', (req, res) => {
+  const dataTeams = getTeams();
+  res.status(200).json({
+    dataTeams,
+  });
+});
+
+app.get('/', (req, res) => {
+  res.send('pong');
+});
+
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
 });
