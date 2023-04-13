@@ -1,5 +1,6 @@
 const request = require('supertest');
 const teamsFixture = require('../data/teams.db.json');
+const teamFixtureARS = require('./team.fixture.json');
 
 const baseURL = 'http://localhost:8007';
 
@@ -9,6 +10,14 @@ describe(' GET /teams', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.dataTeams.teams).toEqual(teamsFixture);
     expect(response.body.dataTeams.length).toEqual(teamsFixture.length);
+  });
+});
+
+describe(' GET /team/:tla', () => {
+  test('should responde with a 200 status code and a one team', async () => {
+    const response = await request(baseURL).get('/team/ARS').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(teamFixtureARS);
   });
 });
 
