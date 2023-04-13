@@ -80,6 +80,14 @@ app.get('/team/:tla', (req, res) => {
   });
 });
 
+app.put('/reset-teams', (req, res) => {
+  fs.writeFile('./data/teams.db.json', fs.readFileSync('./data/teams.json'), (err) => {
+    res.status(200).json({
+      message: 'success reset',
+      dataTeams: getTeams(),
+    });
+  });
+});
 
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
