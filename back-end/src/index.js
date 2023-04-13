@@ -71,9 +71,6 @@ app.get('/teams', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send('pong');
-});
 
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
