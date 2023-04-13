@@ -6,7 +6,12 @@ const PORT = '8007';
 
 const fs = require('fs');
 
+const multer = require('multer');
+
+const upload = multer({ dest: './uploads/shields' });
+
 app.use(express.json());
+app.use(express.static(`${__dirname}/uploads`));
 
 function createNewTeam(name, tla, country, adress, website, founded) {
   const dataTeams = getTeams();
