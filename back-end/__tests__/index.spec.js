@@ -50,3 +50,19 @@ describe('PUT /reset-teams', () => {
   });
 });
 
+describe('PUT /team/:tla/edit', () => {
+  test('should respond with a 200 status code and return a edited team', async () => {
+    const response = await request(baseURL)
+      .put('/team/ARS/edit')
+      .field('name', 'rosario central')
+      .field('tla', 'CARC')
+      .field('country', 'argentina')
+      .field('address', 'mitre y pasco')
+      .field('website', 'www.central.com')
+      .field('founded', '1886')
+      .attach('shield', '__tests__/file.fixture'); // attach your file
+    expect(response.statusCode).toBe(200);
+    expect(response.body.editedTeam).toMatchObject({ name: 'rosario central' });
+    expect(response.body.editedTeam).toMatchObject({ clubColors: 'Red / White' });
+  });
+});
