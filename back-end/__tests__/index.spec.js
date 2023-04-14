@@ -1,6 +1,7 @@
 const request = require('supertest');
 const teamFixtureARS = require('./team.fixture.json');
 const teamsFixtureDb = require('../data/teams.db.json');
+const TEAM_FIXTURE = require('../data/teams.json');
 
 const baseURL = 'http://localhost:8007';
 
