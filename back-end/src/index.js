@@ -81,6 +81,7 @@ app.get('/team/:tla', (req, res) => {
 });
 
 app.put('/reset-teams', (req, res) => {
+  // si escribimo fs.writeFileSync nunca me devuelve nada en postman, por eso uso fs.writeFile, aplica para TODAS
   fs.writeFile('./data/teams.db.json', fs.readFileSync('./data/teams.json'), (err) => {
     res.status(200).json({
       message: 'success reset',
