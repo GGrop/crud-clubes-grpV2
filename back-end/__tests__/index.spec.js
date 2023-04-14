@@ -32,6 +32,7 @@ describe('POST /new-team', () => {
       .field('name', 'roasario central')
       .field('tla', 'CARC')
       .field('country', 'argentina')
+      .field('address', 'mitre y pasco')
       .field('website', 'www.central.com')
       .field('founded', '1886')
       .attach('shield', '__tests__/file.fixture'); // attach your file
