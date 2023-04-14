@@ -36,7 +36,7 @@ describe('POST /new-team', () => {
       .field('website', 'www.central.com')
       .field('founded', '1886')
       .attach('shield', '__tests__/file.fixture'); // attach your file
-    const teamsLength = teamsFixture.length + 1;
+    const teamsLength = teamsFixtureDb.length + 1;
     expect(response.statusCode).toBe(200);
     expect(response.body.dataTeams.length).toEqual(teamsLength);
   });
