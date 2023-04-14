@@ -9,7 +9,7 @@ beforeEach(async () => {
   await request(baseURL).put('/reset-teams');
 });
 describe(' GET /teams', () => {
-  test('should responde with a 200 status code and a list of teams', async () => {
+  test('should respond with a 200 status code and a list of teams', async () => {
     const response = await request(baseURL).get('/teams').send();
     expect(response.statusCode).toBe(200);
     expect(response.body.dataTeams.teams).toEqual(teamsFixture);
@@ -18,7 +18,7 @@ describe(' GET /teams', () => {
 });
 
 describe(' GET /team/:tla', () => {
-  test('should responde with a 200 status code and a one team', async () => {
+  test('should respond with a 200 status code and a one team', async () => {
     const response = await request(baseURL).get('/team/ARS').send();
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(teamFixtureARS);
