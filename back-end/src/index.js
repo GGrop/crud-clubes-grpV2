@@ -74,9 +74,9 @@ app.get('/teams', (req, res) => {
 app.get('/team/:tla', (req, res) => {
   const teamTla = req.params.tla;
   const dataTeams = getTeams();
-  const team = dataTeams.teams.find((team) => team.tla === teamTla);
+  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
   res.status(200).json({
-    team,
+    myTeam,
   });
 });
 
