@@ -25,8 +25,8 @@ describe(' GET /team/:tla', () => {
   });
 });
 
-describe('check POST methods', () => {
-  test('POST /new-team', async () => {
+describe('POST /new-team', () => {
+  test('should respond with a 200 code and length + 1', async () => {
     const response = await request(baseURL)
       .post('/new-team')
       .field('name', 'roasario central')
