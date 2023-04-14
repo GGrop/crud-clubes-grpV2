@@ -12,8 +12,8 @@ describe(' GET /teams', () => {
   test('should respond with a 200 status code and a list of teams', async () => {
     const response = await request(baseURL).get('/teams').send();
     expect(response.statusCode).toBe(200);
-    expect(response.body.dataTeams.teams).toEqual(teamsFixture);
-    expect(response.body.dataTeams.length).toEqual(teamsFixture.length);
+    expect(response.body.dataTeams.teams).toEqual(TEAM_FIXTURE);
+    expect(response.body.dataTeams.length).toEqual(TEAM_FIXTURE.length);
   });
 });
 
