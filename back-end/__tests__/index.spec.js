@@ -41,3 +41,12 @@ describe('POST /new-team', () => {
     expect(response.body.dataTeams.length).toEqual(teamsLength);
   });
 });
+
+describe('PUT /reset-teams', () => {
+  test('should respond with a 200 status code and return the orignal list of teams', async () => {
+    const response = await request(baseURL).put('/reset-teams');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.dataTeams.teams).toEqual(TEAM_FIXTURE);
+  });
+});
+
