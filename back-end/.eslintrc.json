@@ -12,5 +12,12 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "import/extensions": [
+            "error",
+            {
+                "js": "always",
+                "json": "sometimes"
+            }
+        ]
     }
 }
