@@ -5,7 +5,8 @@ const TEAM_FIXTURE = require('../data/teams.json');
 
 const baseURL = 'http://localhost:8007';
 
-beforeEach(async () => {
+
+afterEach(async () => {
   await request(baseURL).put('/reset-teams');
 });
 describe(' GET /teams', () => {
@@ -64,5 +65,16 @@ describe('PUT /team/:tla/edit', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.editedTeam).toMatchObject({ name: 'rosario central' });
     expect(response.body.editedTeam).toMatchObject({ clubColors: 'Red / White' });
+  });
+});
+
+describe('DELETE /team/:tla/delete', () => {
+  test('should respond with a 200 status code and return a edited team', async () => {
+    let response = await request(baseURL).delete('/team/ARS/delete');
+    expect(response.body.message).toEqual('The team has been deleted');
+    expect(response.statusCode).toBe(200);
+    response = await request(baseURL).delete('/team/ARS/delete');
+    expect(response.statusCode).toBe(404);
+    expect(response.body.message).toEqual('that team doesn´t exist');
   });
 });

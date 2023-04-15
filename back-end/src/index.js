@@ -23,7 +23,7 @@ function getTeams() {
   return dataTeams;
 }
 
-function createNewTeam(name, tla, country, adress, website, founded, image) {
+function createNewTeam(name, tla, country, address, website, founded, image) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
@@ -36,7 +36,7 @@ function createNewTeam(name, tla, country, adress, website, founded, image) {
     area: {
       name: country,
     },
-    adress,
+    address,
     website,
     founded,
     crestUrl: `/shields/${image}`,
@@ -47,10 +47,10 @@ function createNewTeam(name, tla, country, adress, website, founded, image) {
 app.post('/new-team', upload.single('shield'), (req, res) => {
   const dataTeams = getTeams();
   const {
-    name, tla, country, adress, website, founded,
+    name, tla, country, address, website, founded,
   } = req.body;
   const image = req.file.filename;
-  const newTeam = createNewTeam(name, tla, country, adress, website, founded, image, getTeams());
+  const newTeam = createNewTeam(name, tla, country, address, website, founded, image, getTeams());
   if (!newTeam) {
     console.log('mostrar error');
   } else {
@@ -119,6 +119,28 @@ app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
       editedTeam,
     });
   });
+});
+
+function deleteTeam(tla) {
+  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
+  const index = teams.findIndex((team) => team.tla === tla);
+  if (index !== -1) {
+    teams.splice(index, 1);
+    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams));
+    return true;
+  }
+  return false;
+}
+
+// hacer metodo delete y test
+app.delete('/team/:tla/delete', (req, res) => {
+  const { tla } = req.params;
+  const eliminado = deleteTeam(tla);
+  if (eliminado) {
+    res.status(200).json({ message: 'The team has been deleted' });
+  } else {
+    res.status(404).json({ message: 'that team doesn´t exist' });
+  }
 });
 
 app.listen(PORT, () => {
