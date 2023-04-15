@@ -132,6 +132,17 @@ function deleteTeam(tla) {
   return false;
 }
 
+// hacer metodo delete y test
+app.delete('/team/:tla/delete', (req, res) => {
+  const { tla } = req.params;
+  const eliminado = deleteTeam(tla);
+  if (eliminado) {
+    res.status(200).json({ message: 'The team has been deleted' });
+  } else {
+    res.status(404).json({ message: 'that team doesn´t exist' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
 });
