@@ -23,7 +23,7 @@ function getTeams() {
   return dataTeams;
 }
 
-function createNewTeam(name, tla, country, adress, website, founded, image) {
+function createNewTeam(name, tla, country, address, website, founded, image) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
@@ -36,7 +36,7 @@ function createNewTeam(name, tla, country, adress, website, founded, image) {
     area: {
       name: country,
     },
-    adress,
+    address,
     website,
     founded,
     crestUrl: `/shields/${image}`,
@@ -47,10 +47,10 @@ function createNewTeam(name, tla, country, adress, website, founded, image) {
 app.post('/new-team', upload.single('shield'), (req, res) => {
   const dataTeams = getTeams();
   const {
-    name, tla, country, adress, website, founded,
+    name, tla, country, address, website, founded,
   } = req.body;
   const image = req.file.filename;
-  const newTeam = createNewTeam(name, tla, country, adress, website, founded, image, getTeams());
+  const newTeam = createNewTeam(name, tla, country, address, website, founded, image, getTeams());
   if (!newTeam) {
     console.log('mostrar error');
   } else {
