@@ -121,6 +121,17 @@ app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
   });
 });
 
+function deleteTeam(tla) {
+  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
+  const index = teams.findIndex((team) => team.tla === tla);
+  if (index !== -1) {
+    teams.splice(index, 1);
+    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams));
+    return true;
+  }
+  return false;
+}
+
 app.listen(PORT, () => {
   console.log('listening on port', PORT);
 });
