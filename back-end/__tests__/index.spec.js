@@ -1,30 +1,68 @@
 const request = require('supertest');
-const teamsFixture = require('../data/teams.db.json');
+const teamFixtureARS = require('./team.fixture.json');
+const teamsFixtureDb = require('../data/teams.db.json');
+const TEAM_FIXTURE = require('../data/teams.json');
 
 const baseURL = 'http://localhost:8007';
 
+beforeEach(async () => {
+  await request(baseURL).put('/reset-teams');
+});
 describe(' GET /teams', () => {
-  test('should responde with a 200 status code and a list of teams', async () => {
+  test('should respond with a 200 status code and a list of teams', async () => {
     const response = await request(baseURL).get('/teams').send();
     expect(response.statusCode).toBe(200);
-    expect(response.body.dataTeams.teams).toEqual(teamsFixture);
-    expect(response.body.dataTeams.length).toEqual(teamsFixture.length);
+    expect(response.body.dataTeams.teams).toEqual(TEAM_FIXTURE);
+    expect(response.body.dataTeams.length).toEqual(TEAM_FIXTURE.length);
   });
 });
 
-describe(' POST /new-team', () => {
-  test('should responde with a 200 status code and create a team', async () => {
-    const newTeam = {
-      name: 'Rosario central',
-      tla: 'cars',
-      country: 'Argentina',
-      adress: 'Pte. Roca 1500',
-      website: 'www.central.com',
-      founded: '1886',
-    };
-    const teamsLength = teamsFixture.length + 1;
-    const response = await request(baseURL).post('/new-team').send(newTeam);
+describe(' GET /team/:tla', () => {
+  test('should respond with a 200 status code and a one team', async () => {
+    const response = await request(baseURL).get('/team/ARS').send();
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(teamFixtureARS);
+  });
+});
+
+describe('POST /new-team', () => {
+  test('should respond with a 200 code and length + 1', async () => {
+    const response = await request(baseURL)
+      .post('/new-team')
+      .field('name', 'roasario central')
+      .field('tla', 'CARC')
+      .field('country', 'argentina')
+      .field('address', 'mitre y pasco')
+      .field('website', 'www.central.com')
+      .field('founded', '1886')
+      .attach('shield', '__tests__/file.fixture'); // attach your file
+    const teamsLength = teamsFixtureDb.length + 1;
     expect(response.statusCode).toBe(200);
     expect(response.body.dataTeams.length).toEqual(teamsLength);
+  });
+});
+
+describe('PUT /reset-teams', () => {
+  test('should respond with a 200 status code and return the orignal list of teams', async () => {
+    const response = await request(baseURL).put('/reset-teams');
+    expect(response.statusCode).toBe(200);
+    expect(response.body.dataTeams.teams).toEqual(TEAM_FIXTURE);
+  });
+});
+
+describe('PUT /team/:tla/edit', () => {
+  test('should respond with a 200 status code and return a edited team', async () => {
+    const response = await request(baseURL)
+      .put('/team/ARS/edit')
+      .field('name', 'rosario central')
+      .field('tla', 'CARC')
+      .field('country', 'argentina')
+      .field('address', 'mitre y pasco')
+      .field('website', 'www.central.com')
+      .field('founded', '1886')
+      .attach('shield', '__tests__/file.fixture'); // attach your file
+    expect(response.statusCode).toBe(200);
+    expect(response.body.editedTeam).toMatchObject({ name: 'rosario central' });
+    expect(response.body.editedTeam).toMatchObject({ clubColors: 'Red / White' });
   });
 });

@@ -6,9 +6,24 @@ const PORT = '8007';
 
 const fs = require('fs');
 
-app.use(express.json());
+const multer = require('multer');
 
-function createNewTeam(name, tla, country, adress, website, founded) {
+const upload = multer({ dest: './uploads/shields' });
+
+app.use(express.json());
+app.use(express.static(`${__dirname}/uploads`));
+
+function getTeams() {
+  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
+  const teamsLength = teams.length;
+  const dataTeams = {
+    teams,
+    length: teamsLength,
+  };
+  return dataTeams;
+}
+
+function createNewTeam(name, tla, country, adress, website, founded, image) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
@@ -24,16 +39,18 @@ function createNewTeam(name, tla, country, adress, website, founded) {
     adress,
     website,
     founded,
+    crestUrl: `/shields/${image}`,
   };
   return newTeam;
 }
 
-app.post('/new-team', (req, res) => {
+app.post('/new-team', upload.single('shield'), (req, res) => {
   const dataTeams = getTeams();
   const {
     name, tla, country, adress, website, founded,
   } = req.body;
-  const newTeam = createNewTeam(name, tla, country, adress, website, founded, getTeams());
+  const image = req.file.filename;
+  const newTeam = createNewTeam(name, tla, country, adress, website, founded, image, getTeams());
   if (!newTeam) {
     console.log('mostrar error');
   } else {
@@ -47,16 +64,6 @@ app.post('/new-team', (req, res) => {
 });
 // bucle infinito en testing
 
-function getTeams() {
-  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
-  const teamsLength = teams.length;
-  const dataTeams = {
-    teams,
-    length: teamsLength,
-  };
-  return dataTeams;
-}
-
 app.get('/teams', (req, res) => {
   const dataTeams = getTeams();
   res.status(200).json({
@@ -64,8 +71,54 @@ app.get('/teams', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send('pong');
+app.get('/team/:tla', (req, res) => {
+  const teamTla = req.params.tla;
+  const dataTeams = getTeams();
+  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
+  res.status(200).json({
+    myTeam,
+  });
+});
+
+app.put('/reset-teams', (req, res) => {
+  // si escribimo fs.writeFileSync nunca me devuelve nada en postman, por eso uso fs.writeFile, aplica para TODAS
+  fs.writeFile('./data/teams.db.json', fs.readFileSync('./data/teams.json'), (err) => {
+    res.status(200).json({
+      message: 'success reset',
+      dataTeams: getTeams(),
+    });
+  });
+});
+
+app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
+  const teamTla = req.params.tla;
+  const {
+    country, name, tla, address, website, founded,
+  } = req.body;
+  const newTla = tla.toUpperCase();
+  const dataTeams = getTeams();
+  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
+  const newTeams = dataTeams.teams.filter((team) => team.tla !== teamTla);
+  const editedTeam = {
+    ...myTeam,
+    area: {
+      name: country,
+    },
+    name,
+    tla: newTla,
+    address,
+    website,
+    founded,
+  };
+  if (req.file) {
+    editedTeam.crestUrl = `/shields/${req.file.filename}`;
+  }
+  newTeams.push(editedTeam);
+  fs.writeFile('./data/teams.db.json', JSON.stringify(newTeams), (err) => {
+    res.status(200).json({
+      editedTeam,
+    });
+  });
 });
 
 app.listen(PORT, () => {
