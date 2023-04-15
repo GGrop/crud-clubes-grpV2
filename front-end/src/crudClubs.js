@@ -1,3 +1,5 @@
+import { getClubList } from './api/clubsAPI.js';
+
 export function initialization() {
-  console.log('hello world');
+  getClubList();
 }
