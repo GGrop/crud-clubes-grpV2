@@ -4,6 +4,6 @@ export async function getClubList() {
   return (await fetch(URL)).json()
 }
 
-export async function getClub() {
-  // (await fetch(URL)).json();
+export async function getAClub(TLA) {
+  return (await fetch(`${URL2}/${TLA}`)).json();
 }
