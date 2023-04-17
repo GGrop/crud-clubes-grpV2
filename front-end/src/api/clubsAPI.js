@@ -1,9 +1,7 @@
 const URL = 'http://localhost:8007/teams';
 
 export async function getClubList() {
-  await fetch(URL)
-    .then((r) => r.json())
-    .then((r) => console.log(r));
+  return (await fetch(URL)).json()
 }
 
 export async function getClub() {
