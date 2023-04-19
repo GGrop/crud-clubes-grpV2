@@ -30,3 +30,6 @@ async function handleTeamList(){
 }
 
 
+export async function  initialization () {
+  handleTeamList();
+}
