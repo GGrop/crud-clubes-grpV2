@@ -20,6 +20,10 @@ async function handleATeam(Tla){
   handleLoading(false)
 
 
+async function handleEdition(tla) {
+  removeContent();
+  showEditableTeamCard(getATeam(tla));
+  console.log('I should edit');
 }
 
 }
