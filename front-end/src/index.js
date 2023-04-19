@@ -1,3 +1,3 @@
-import { initialization } from './crudClubs.js';
+import { initialization } from './crud.js';
 
 initialization();
