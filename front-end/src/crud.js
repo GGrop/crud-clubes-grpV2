@@ -14,6 +14,9 @@ function removeContent() {
   document.querySelector('#content').innerHTML = '';
 }
 
+async function handleDelete(tla) {
+  console.log('I should delete', tla);
+}
 
 async function handleEdition(tla) {
   removeContent();
