@@ -1,7 +1,8 @@
-import { getATeam, getTeamsList } from "./services/teamsServices.js";
-import { handleLoading } from "./ui/loading/loading.js";
-import showTeamList from "./ui/teamsLists/teamLists.js"
-import showTeamCard from './ui/teamCard/teamCard.js'
+import { getATeam, getTeamsList } from './services/teamsServices.js';
+import { handleLoading } from './ui/loading/loading.js';
+import showTeamList from './ui/teamsLists/teamLists.js';
+import showTeamCard from './ui/teamCard/teamCard.js';
+import showEditableTeamCard from './ui/teamEdit/teamEdit.js';
 // export async function  initialization () {
 //   const data = await getATeam("ARS")
 //   console.log(data)
@@ -9,8 +10,8 @@ import showTeamCard from './ui/teamCard/teamCard.js'
 //   console.log(data2)
 // }
 
-function removeContent(){
-  document.querySelector('#content').innerHTML = ""
+function removeContent() {
+  document.querySelector('#content').innerHTML = '';
 }
 async function handleATeam(Tla){
   removeContent()
@@ -21,15 +22,15 @@ async function handleATeam(Tla){
 
 }
 
-
-async function handleTeamList(){
-  removeContent()
-  handleLoading(true)
-  await showTeamList(await getTeamsList(), handleATeam)
-  handleLoading(false)
 }
 
+async function handleTeamList() {
+  removeContent();
+  handleLoading(true);
+  await showTeamList(await getTeamsList(), handleATeam);
+  handleLoading(false);
+}
 
-export async function  initialization () {
+export async function initialization() {
   handleTeamList();
 }
