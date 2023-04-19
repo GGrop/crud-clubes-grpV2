@@ -13,11 +13,6 @@ import showEditableTeamCard from './ui/teamEdit/teamEdit.js';
 function removeContent() {
   document.querySelector('#content').innerHTML = '';
 }
-async function handleATeam(Tla){
-  removeContent()
-  handleLoading(true)
-  await showTeamCard( await getATeam(Tla))
-  handleLoading(false)
 
 
 async function handleEdition(tla) {
@@ -26,12 +21,17 @@ async function handleEdition(tla) {
   console.log('I should edit');
 }
 
+async function handleTeam(tla) {
+  removeContent();
+  handleLoading(true);
+  await createTeamCard(await getATeam(tla), handleEdition, handleDelete);
+  handleLoading(false);
 }
 
 async function handleTeamList() {
   removeContent();
   handleLoading(true);
-  await showTeamList(await getTeamsList(), handleATeam);
+  await showTeamList(await getTeamsList(), handleTeam);
   handleLoading(false);
 }
 
