@@ -24,3 +24,14 @@ export function mapTeam(teamData){
   )
 }
 
+export function mapTeamsList(teamListData){
+  const {
+    length,
+    teams
+  } = teamListData.dataTeams
+
+  return new TeamList(
+    length,
+    teams.map((team)=> team)
+  )
+}
