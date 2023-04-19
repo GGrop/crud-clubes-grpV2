@@ -2,13 +2,13 @@ import { getATeam as getATeamAPI, getTeamList as getTeamListAPI } from '../api/t
 import { mapTeam, mapTeamsList } from '../entities_maps/maps.js';
 import { getATeam as getATeamStorage, getTeamsList as getTeamsListStorage, saveOnStorage } from '../storage/teamsStorage.js';
 
-export async function getATeam(TLA) {
+export async function getATeam(tla) {
   let team;
   try {
-    team = getATeamStorage(TLA);
+    team = getATeamStorage(tla);
   } catch (e) {
-    team = mapTeam(await getATeamAPI(TLA));
-    saveOnStorage(team, TLA);
+    team = mapTeam(await getATeamAPI(tla));
+    saveOnStorage(team, tla);
     console.log('de apinetA');
   }
   return team;

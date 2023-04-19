@@ -5,6 +5,6 @@ export async function getTeamList() {
   return (await fetch(URL)).json();
 }
 
-export async function getATeam(TLA) {
-  return (await fetch(`${URL2}/${TLA}`)).json();
+export async function getATeam(tla) {
+  return (await fetch(`${URL2}/${tla}`)).json();
 }
