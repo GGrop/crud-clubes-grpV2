@@ -4,6 +4,20 @@
   justify-content: center;
   user-select: none;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+  background-image: url("../assets/wallpaper1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.my-navbar{
+  min-width: 100vw;
+}
 .no-select{
   user-select: none!important;
 }
@@ -52,13 +66,7 @@ form {
   background-color: #212529d8!important;
   border-radius: 20px;
 }
-body {
-  background-image: url("../assets/wallpaper1.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
+
 .my-created-alert{
   margin: auto;
   width: 40%;
@@ -75,4 +83,35 @@ body {
   border-radius: 5px;
   padding: 4px;
   user-select: none;
+}
+
+#blackscreen {
+  position: fixed;
+  background-color: black;
+  opacity: 0.6;
+  width: 100%;
+  min-height: 100%;
+  z-index: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.rotate {
+  position: fixed;
+  bottom: 50%;
+  width: 20%;
+  z-index: 2;
+  width: 100px;
+  animation: rotation 0.5s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
