@@ -14,3 +14,10 @@ export function getTeamsList(){
   return teamsList
 }
 
+export function getATeam(TLA){
+  const team = JSON.parse(localStorage.getItem(makeKey(TLA)))
+  if (team === null){
+    throw new Error("there isn´t a team in the storage yet")
+  }
+  return team
+}
