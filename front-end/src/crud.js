@@ -9,3 +9,6 @@ import showTeamCard from './ui/teamCard/teamCard.js'
 //   console.log(data2)
 // }
 
+function removeContent(){
+  document.querySelector('#content').innerHTML = ""
+}
