@@ -70,7 +70,3 @@ function createTeamCard(team) {
 
   document.querySelector('#content').appendChild($cardContainer);
 }
-
-export default function showTeamCard(team){
-  createTeamCard(team)
-}
