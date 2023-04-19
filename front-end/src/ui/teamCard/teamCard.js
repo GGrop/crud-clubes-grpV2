@@ -1,4 +1,4 @@
-function createTeamCard(team) {
+export default function createTeamCard(team, callbackEdit = () => {}, callbackDelete = () => {}) {
   const $cardContainer = document.createElement('div');
   $cardContainer.classList = 'card mt-4 mx-auto';
   $cardContainer.style = 'width: 18rem';
@@ -61,11 +61,13 @@ function createTeamCard(team) {
   const $edit = document.createElement('button');
   $edit.classList = ' btn btn-primary mx-2';
   $edit.textContent = 'Edit';
+  $edit.onclick = () => callbackEdit(team.tla);
   $buttonContainer.appendChild($edit);
 
   const $delete = document.createElement('button');
   $delete.classList = ' btn btn-danger mx-2';
   $delete.textContent = 'Delete';
+  $delete.onclick = () => callbackDelete(team.tla);
   $buttonContainer.appendChild($delete);
 
   document.querySelector('#content').appendChild($cardContainer);
