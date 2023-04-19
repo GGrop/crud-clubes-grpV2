@@ -12,3 +12,13 @@ import showTeamCard from './ui/teamCard/teamCard.js'
 function removeContent(){
   document.querySelector('#content').innerHTML = ""
 }
+async function handleATeam(Tla){
+  removeContent()
+  handleLoading(true)
+  await showTeamCard( await getATeam(Tla))
+  handleLoading(false)
+
+
+}
+
+
