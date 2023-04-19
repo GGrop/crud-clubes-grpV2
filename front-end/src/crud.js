@@ -22,3 +22,11 @@ async function handleATeam(Tla){
 }
 
 
+async function handleTeamList(){
+  removeContent()
+  handleLoading(true)
+  await showTeamList(await getTeamsList(), handleATeam)
+  handleLoading(false)
+}
+
+
