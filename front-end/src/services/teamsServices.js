@@ -14,3 +14,13 @@ export async function getATeam(TLA){
   return team
 }
 
+export async function getTeamsList(){
+  let teamsList
+  try{
+    teamsList = getTeamsListStorage()
+  } catch(e){
+    teamsList = mapTeamsList(await getTeamListAPI())
+    saveOnStorage(teamsList,"List")
+  }
+  return teamsList
+}
