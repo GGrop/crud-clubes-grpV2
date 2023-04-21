@@ -1,3 +1,7 @@
-export function showAlert(element) {
-  document.querySelector(element).classList.remove('hidden');
+export function showAlert(state, element) {
+  if (state) {
+    document.querySelector(element).classList.remove('hidden');
+  } else {
+    document.querySelector(element).classList.add('hidden');
+  }
 }
