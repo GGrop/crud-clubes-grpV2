@@ -1,4 +1,4 @@
-export function showAlert(state, element) {
+export function handleAlert(state, element) {
   if (state) {
     document.querySelector(element).classList.remove('hidden');
   } else {

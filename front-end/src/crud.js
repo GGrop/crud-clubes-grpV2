@@ -33,6 +33,8 @@ async function handleTeam(tla) {
 }
 
 async function handleTeamList() {
+  handleAlert(0, '#alert-success');
+  handleAlert(0, '#alert-error');
   removeContent();
   handleLoading(true);
   await showTeamList(await getTeamsList(), handleTeam);
@@ -47,9 +49,9 @@ async function editTeam(e, teamTla) {
     editTeamApi(teamTla, formData);
     localStorage.clear();
     removeContent();
-    showAlert('#alert-success');
+    handleAlert(1, '#alert-success');
   } catch (error) {
-    showAlert('#alert-error');
+    handleAlert(1, '#alert-error');
   }
 }
 
