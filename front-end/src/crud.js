@@ -49,6 +49,16 @@ async function editTeam(e, teamTla) {
   }
 }
 
+document.querySelector('#reset-teams').onclick = async () => {
+  resetTeams();
+  localStorage.clear();
+  handleTeamList();
+};
+
+document.querySelector('#home').onclick = async () => {
+  handleTeamList();
+};
+
 export async function initialization() {
   handleTeamList();
 }
