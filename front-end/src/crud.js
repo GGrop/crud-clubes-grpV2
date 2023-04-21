@@ -22,8 +22,7 @@ async function handleDelete(tla) {
 
 async function handleEdition(tla) {
   removeContent();
-  showEditableTeamCard(getATeam(tla));
-  console.log('I should edit');
+  createEditableTeamCard(await getATeam(tla), editTeam);
 }
 
 async function handleTeam(tla) {
