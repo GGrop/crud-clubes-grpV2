@@ -42,18 +42,9 @@ async function handleTeamList() {
 async function editTeam(e, teamTla) {
   try {
     e.preventDefault();
-    const {
-      name, tla, country, address, shield, website, founded,
-    } = e.target;
-    const dataForm = {
-      name: name.value,
-      tla: tla.value,
-      country: country.value,
-      address: address.value,
-      website: website.value,
-      founded: founded.value,
-    };
-    editTeamApi(teamTla, dataForm);
+    const form = e.target;
+    const formData = new FormData(form);
+    editTeamApi(teamTla, formData);
     localStorage.clear();
     removeContent();
     showAlert('#alert-success');
