@@ -39,6 +39,29 @@ async function handleTeamList() {
   handleLoading(false);
 }
 
+async function editTeam(e, teamTla) {
+  try {
+    e.preventDefault();
+    const {
+      name, tla, country, address, shield, website, founded,
+    } = e.target;
+    const dataForm = {
+      name: name.value,
+      tla: tla.value,
+      country: country.value,
+      address: address.value,
+      website: website.value,
+      founded: founded.value,
+    };
+    editTeamApi(teamTla, dataForm);
+    localStorage.clear();
+    removeContent();
+    showAlert('#alert-success');
+  } catch (error) {
+    showAlert('#alert-error');
+  }
+}
+
 export async function initialization() {
   handleTeamList();
 }
