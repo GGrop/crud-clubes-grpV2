@@ -12,7 +12,6 @@ export async function getATeam(tla) {
 export async function editTeam(tla, dataForm) {
   await fetch(`http://localhost:8007/team/${tla}/edit`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify(dataForm),
+    body: dataForm,
   });
 }
