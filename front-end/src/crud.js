@@ -3,11 +3,6 @@ import { handleLoading } from './ui/loading/loading.js';
 import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
-
-function removeContent() {
-  document.querySelector('#content').innerHTML = '';
-}
-
 async function handleDelete(tla) {
   console.log('I should delete', tla);
 }
@@ -38,6 +33,12 @@ async function handleTeamList() {
 }
 
 async function editTeam(e, teamTla) {
+
+function removeContent() {
+  handleHiddenAll('.content');
+  document.querySelector('#tbody').innerHTML = '';
+}
+
   try {
     e.preventDefault();
     const form = e.target;
