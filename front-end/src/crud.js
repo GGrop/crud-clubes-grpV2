@@ -73,14 +73,35 @@ document.querySelector('#edit-team-form').onsubmit = async (e) => {
   } catch (error) {
     handleHidden(1, '#alert-error');
   }
-}
+};
+
+document.querySelector('#new-team-form').onsubmit = async (e) => {
+  try {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    createTeamApi(formData);
+    localStorage.clear();
+    removeContent();
+    handleHidden(1, '#alert-success');
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
+  const inputs = document.querySelectorAll('#new-team-input');
+  inputs.forEach((input) => {
+    input.value = '';
+  });
+};
 
 document.querySelector('#reset-teams').onclick = async () => {
   resetTeams();
   localStorage.clear();
   handleTeamList();
 };
-
+document.querySelector('#create-team').onclick = async () => {
+  removeContent();
+  handleHidden(1, '#content-new-team');
+};
 document.querySelector('#home').onclick = async () => {
   handleTeamList();
 };
