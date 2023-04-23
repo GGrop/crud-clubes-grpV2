@@ -1,31 +1,3 @@
-function createTable() {
-  const $tableContainer = document.createElement('div');
-  $tableContainer.className = 'container mt-4';
-
-  const $table = document.createElement('table');
-  $table.className = 'table';
-  $tableContainer.appendChild($table);
-
-  const $thead = document.createElement('thead');
-  $thead.className = 'thead-dark';
-  $table.appendChild($thead);
-
-  const $tbody = document.createElement('tbody');
-  $tbody.id = 'tbody';
-  $table.appendChild($tbody);
-
-  const $tr = document.createElement('tr');
-  $thead.appendChild($tr);
-
-  const $th = document.createElement('th');
-  $th.className = 'text-center';
-  $th.colSpan = '5';
-  $th.textContent = 'Teams';
-  $thead.appendChild($th);
-
-  document.querySelector('#content').appendChild($tableContainer);
-}
-
 function populateTable(team, index, callBackFunction = () => {}) {
   const $team = document.createElement('tr');
 
@@ -75,8 +47,7 @@ function populateTable(team, index, callBackFunction = () => {}) {
   document.querySelector('#tbody').appendChild($team);
 }
 
-export default function showTeamList(teamsList, getATeam = () => {}) {
+export default function CreateTeamList(teamsList, getATeam = () => {}) {
   document.querySelector('#teams-length').textContent = teamsList.total;
-  createTable();
   teamsList.teams.map((team, index) => populateTable(team, index, getATeam));
 }
