@@ -1,10 +1,8 @@
 import { getATeam, getTeamsList } from './services/teamsServices.js';
 import { handleLoading } from './ui/loading/loading.js';
-import showTeamList from './ui/teamsLists/teamLists.js';
+import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
-import { editTeam as editTeamApi, resetTeams } from './api/teamsAPI.js';
-import { handleAlert } from './ui/alerts/alerts.js';
 
 function removeContent() {
   document.querySelector('#content').innerHTML = '';
@@ -18,6 +16,10 @@ async function handleEdition(tla) {
   removeContent();
   createEditableTeamCard(await getATeam(tla), editTeam);
 }
+import {
+  createTeam as createTeamApi, deleteTeam as deleteTeamApi, editTeam as editTeamApi, resetTeams,
+} from './api/teamsAPI.js';
+import { handleHidden, handleHiddenAll } from './ui/alerts/alerts.js';
 
 async function handleTeam(tla) {
   removeContent();
