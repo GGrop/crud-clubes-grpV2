@@ -17,11 +17,10 @@ async function handleTeam(tla) {
 }
 
 async function handleTeamList() {
-  handleAlert(0, '#alert-success');
-  handleAlert(0, '#alert-error');
-  removeContent();
   handleLoading(true);
-  await showTeamList(await getTeamsList(), handleTeam);
+  removeContent();
+  await CreateTeamList(await getTeamsList(), handleTeam);
+  handleHidden(1, '#content-list');
   handleLoading(false);
 }
 
