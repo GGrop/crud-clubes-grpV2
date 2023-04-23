@@ -9,9 +9,10 @@ import {
 import { handleHidden, handleHiddenAll } from './ui/alerts/alerts.js';
 
 async function handleTeam(tla) {
-  removeContent();
   handleLoading(true);
-  await createTeamCard(await getATeam(tla), handleEdition, handleDelete);
+  removeContent();
+  await createTeamCard(await getATeam(tla));
+  handleHidden(1, '#content-team');
   handleLoading(false);
 }
 
