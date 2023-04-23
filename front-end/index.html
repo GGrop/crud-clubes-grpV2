@@ -37,24 +37,229 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Home
-              <span class="sr-only">(current)</span></a>
+            <button class="btn btn-light mx-4" id="home">Home
+              <span class="sr-only">(current)</span></button>
           </li>
           <li class="nav-item active">
             <span class="nav-link no-select" href="/">Teams:
               <span id="teams-length"></span></span>
           </li>
         </ul>
-        <form>
-          <a class="btn btn-light mx-4" href="/app/new-team">Create a team</a>
-        </form>
-        <form action="/" method="POST">
-          <button type="submit" class="btn btn-light">Reset teams</button>
-        </form>
+          <button class="btn btn-light mx-4" id="create-team">Create a team</button>
+          <button id="reset-teams" class="btn btn-light">Reset teams</button>
       </div>
     </nav>
 
-    <div id="content"></div>
+    <div id="content-list" class="content hidden">
+      <div class="container mt-4">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center" colspan="5">Teams</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="content-team" class="content hidden">
+      <div class="card mt-4 mx-auto" style="width: 18rem;">
+        <img
+          class="card-img-top"
+          alt="shield of club {{{data.name}}}"
+          id="src-team-img"
+        />
+        <div class="card-body">
+          <h5 class="card-title" id="label-team-name"></h5>
+          <p class="card-text" id="label-team-tla"></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" id="label-team-country"></li>
+          <li class="list-group-item" id="label-team-address"></li>
+          <a href="{{{data.website}}}">
+            <li class="list-group-item" id="label-team-website"></li>
+          </a>
+          <li class="list-group-item" id="label-team-founded">
+            <p>Founded:</p>
+          </li>
+        </ul>
+        <div class="card-body">
+          <button type="button" class="btn btn-primary" id="edit-team-button">Edit</button>
+          <button type="button" class="btn btn-danger" id="delete-team-button">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="content-new-team" class="hidden content">
+      <form id="new-team-form" class="new-team-form mt-4 p-4 mx-auto no-select" enctype="multipart/form-data">
+        <h1>New team:</h1>
+        <div class="form-group">
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            required
+            class="form-control"
+            placeholder="Enter a name"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>TLA:</label>
+          <input
+            type="text"
+            name="tla"
+            required
+            class="form-control"
+            placeholder="Enter a TLA"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>Country:</label>
+          <input
+            type="text"
+            name="country"
+            required
+            class="form-control"
+            placeholder="Enter a TLA"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>address:</label>
+          <input
+            type="text"
+            name="address"
+            required
+            class="form-control"
+            placeholder="Enter a adress"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>website:</label>
+          <input
+            type="text"
+            name="website"
+            required
+            class="form-control"
+            placeholder="Enter a website"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label>founded:</label>
+          <input
+            type="text"
+            name="founded"
+            required
+            class="form-control"
+            placeholder="Enter founded"
+            id="new-team-input"
+          />
+        </div>
+        <div class="form-group">
+          <label for="shield">Shield: </label>
+          <input type="file" name="shield" required id="new-team-input"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div id="content-edit-team" class="content hidden">
+      <form class="new-team-form mt-4 p-4 mx-auto no-select" enctype="multipart/form-data" id="edit-team-form">
+        <h1>Edit Team:</h1>
+        <label for="shield">Shield: </label>
+        <div class="form-group">
+          <img class="edit-shield mb-3" alt="" id="src-edit-img"/>
+          <input type="file" name="shield" id="shield" />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Name:</label>
+          <input
+            type="text"
+            name="name"
+            class="form-control"
+            placeholder="Enter a name"
+            id="input-edit-name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">TLA:</label>
+          <input
+            type="text"
+            name="tla"
+            class="form-control"
+            placeholder="Enter a TLA"
+            id="input-edit-tla"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Country:</label>
+          <input
+            type="text"
+            name="country"
+            class="form-control"
+            placeholder="Enter Country"
+            id="input-edit-country"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">address:</label>
+          <input
+            type="text"
+            name="address"
+            class="form-control"
+            placeholder="Enter a adress"
+            id="input-edit-address"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">website:</label>
+          <input
+            type="text"
+            name="website"
+            class="form-control"
+            placeholder="Enter a website"
+            id="input-edit-website"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">founded:</label>
+          <input
+            type="text"
+            name="founded"
+            class="form-control"
+            placeholder="Enter founded"
+            id="input-edit-founded"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-secondary">Back</button>
+      </form>
+    </div>
+
+
+    <div class="alert alert-success my-alert mt-4 mx-auto hidden content" role="alert" id="alert-success">
+      La operacion ha sido un exito! Vuelve al menu.
+    </div>
+
+    <div class="alert alert-danger my-alert mt-4 mx-auto hidden content" role="alert" id="alert-error">
+      Ops! Hubo un error, intentalo mas tarde
+    </div>
+
+    <div id="content-delete-team" class="hidden content">
+      <form id="delete-team-form">
+        <div class="alert alert-danger mx-auto mt-2 my-alert" role="alert">
+          Are you sure you want to delete this team?
+        <button type="submit" class="btn btn-danger">Yes</button>
+        <button type="button" class="btn btn-secondary">No</button>
+      </form>
+    </div>
+
+  </div>
 
   </div>
   <div id="blackscreen" class="hidden"></div>

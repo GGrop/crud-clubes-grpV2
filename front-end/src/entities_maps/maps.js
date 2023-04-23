@@ -1,7 +1,7 @@
-import Team from '../entities/team.js'
-import TeamList from '../entities/teamList.js'
+import Team from '../entities/team.js';
+import TeamList from '../entities/teamList.js';
 
-export function mapTeam(teamData){
+export function mapTeam(teamData) {
   const {
     name,
     tla,
@@ -9,8 +9,8 @@ export function mapTeam(teamData){
     crestUrl,
     address,
     website,
-    founded
-  } = teamData.myTeam
+    founded,
+  } = teamData.myTeam;
   // console.log(country)
 
   return new Team(
@@ -20,18 +20,18 @@ export function mapTeam(teamData){
     crestUrl,
     address,
     website,
-    founded
-  )
+    founded,
+  );
 }
 
-export function mapTeamsList(teamListData){
+export function mapTeamsList(teamListData) {
   const {
     length,
-    teams
-  } = teamListData.dataTeams
+    teams,
+  } = teamListData.dataTeams;
 
   return new TeamList(
     length,
-    teams.map((team)=> team)
-  )
+    teams.map((team) => team),
+  );
 }
