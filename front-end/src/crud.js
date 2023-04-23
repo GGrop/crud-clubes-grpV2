@@ -105,7 +105,3 @@ document.querySelector('#create-team').onclick = async () => {
 document.querySelector('#home').onclick = async () => {
   await handleTeamList();
 };
-// que funcionalidades me faltan
-// agregar un nuevo equipo
-// borrar un nuevo equipo
-// solucionar o mejorar lo del local storage y el sistema de alertas q parece muy hardcodeado
