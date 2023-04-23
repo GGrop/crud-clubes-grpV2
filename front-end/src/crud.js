@@ -24,7 +24,9 @@ async function handleTeamList() {
   handleLoading(false);
 }
 
-async function editTeam(e, teamTla) {
+export default async function initialization() {
+  handleTeamList();
+}
 
 function removeContent() {
   handleHiddenAll('.content');
@@ -82,11 +84,6 @@ document.querySelector('#reset-teams').onclick = async () => {
 document.querySelector('#home').onclick = async () => {
   handleTeamList();
 };
-
-export async function initialization() {
-  handleTeamList();
-}
-
 // que funcionalidades me faltan
 // agregar un nuevo equipo
 // borrar un nuevo equipo
