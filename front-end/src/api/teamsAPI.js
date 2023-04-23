@@ -26,3 +26,10 @@ export async function deleteTeam(tla) {
     method: 'DELETE',
   });
 }
+
+export async function createTeam(dataForm) {
+  await fetch(`${URL}/new-team`, {
+    method: 'POST',
+    body: dataForm,
+  });
+}
