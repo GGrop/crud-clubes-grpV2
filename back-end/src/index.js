@@ -96,8 +96,6 @@ app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
   const {
     country, name, tla, address, website, founded,
   } = req.body;
-  console.log(name, 'soy el name');
-  console.log(req.file, 'soy el file');
   const newTla = tla.toUpperCase();
   const dataTeams = getTeams();
   const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
