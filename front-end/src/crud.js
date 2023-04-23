@@ -3,10 +3,6 @@ import { handleLoading } from './ui/loading/loading.js';
 import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
-async function handleEdition(tla) {
-  removeContent();
-  createEditableTeamCard(await getATeam(tla), editTeam);
-}
 import {
   createTeam as createTeamApi, deleteTeam as deleteTeamApi, editTeam as editTeamApi, resetTeams,
 } from './api/teamsAPI.js';
@@ -53,16 +49,27 @@ document.querySelector('#delete-team-form').onsubmit = async (e) => {
   }
 };
 
+document.querySelector('#edit-team-button').onclick = async () => {
+  removeContent();
+  const { dataset } = document.querySelector('#label-team-tla');
+  const { tla } = dataset;
+  await createEditableTeamCard(await getATeam(tla));
+  handleHidden(1, '#content-edit-team');
+};
+
+document.querySelector('#edit-team-form').onsubmit = async (e) => {
   try {
     e.preventDefault();
+    const { dataset } = document.querySelector('#input-edit-tla');
+    const { tla } = dataset;
     const form = e.target;
     const formData = new FormData(form);
-    editTeamApi(teamTla, formData);
+    editTeamApi(tla, formData);
     localStorage.clear();
     removeContent();
-    handleAlert(1, '#alert-success');
+    handleHidden(1, '#alert-success');
   } catch (error) {
-    handleAlert(1, '#alert-error');
+    handleHidden(1, '#alert-error');
   }
 }
 
