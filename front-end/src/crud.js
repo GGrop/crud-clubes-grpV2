@@ -6,7 +6,7 @@ import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
 import {
   createTeam as createTeamApi, deleteTeam as deleteTeamApi, editTeam as editTeamApi, resetTeams,
 } from './api/teamsAPI.js';
-import { handleHidden, handleHiddenAll } from './ui/alerts/alerts.js';
+import { handleHidden, handleHiddenAll } from './ui/handleHidden/handleHidden.js';
 
 async function handleTeam(tla) {
   handleLoading(true);
