@@ -20,3 +20,9 @@ export async function resetTeams() {
     method: 'PUT',
   });
 }
+
+export async function deleteTeam(tla) {
+  await fetch(`${URL}/team/${tla}/delete`, {
+    method: 'DELETE',
+  });
+}
