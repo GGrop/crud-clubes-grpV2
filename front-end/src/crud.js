@@ -3,10 +3,6 @@ import { handleLoading } from './ui/loading/loading.js';
 import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
-async function handleDelete(tla) {
-  console.log('I should delete', tla);
-}
-
 async function handleEdition(tla) {
   removeContent();
   createEditableTeamCard(await getATeam(tla), editTeam);
@@ -38,6 +34,24 @@ function removeContent() {
   handleHiddenAll('.content');
   document.querySelector('#tbody').innerHTML = '';
 }
+
+document.querySelector('#delete-team-button').onclick = async () => {
+  handleHidden(1, '#content-delete-team');
+};
+
+document.querySelector('#delete-team-form').onsubmit = async (e) => {
+  try {
+    e.preventDefault();
+    const { dataset } = document.querySelector('#label-team-tla');
+    const { tla } = dataset;
+    await deleteTeamApi(tla);
+    localStorage.clear();
+    removeContent();
+    handleHidden(1, '#alert-success');
+  } catch (err) {
+    handleHidden(1, '#alert-error');
+  }
+};
 
   try {
     e.preventDefault();
