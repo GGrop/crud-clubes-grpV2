@@ -103,7 +103,7 @@ document.querySelector('#create-team').onclick = async () => {
   handleHidden(1, '#content-new-team');
 };
 document.querySelector('#home').onclick = async () => {
-  handleTeamList();
+  await handleTeamList();
 };
 // que funcionalidades me faltan
 // agregar un nuevo equipo
