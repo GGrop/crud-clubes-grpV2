@@ -14,7 +14,6 @@ export async function getATeam(id) {
   try {
     team = getATeamStorage(id);
   } catch (e) {
-    console.log('de apinetA');
     team = mapTeam(await getATeamAPI(id));
     saveOnStorage(team, id);
   }
