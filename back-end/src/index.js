@@ -124,7 +124,22 @@ app.get('/teams', (req, res) => {
 });
 
 app.get('/team/:id', (req, res) => {
+  try {
     const teamId = req.params.id;
+    if (!teamId) {
+      throw new Error('Id is wrong');
+    }
+    const dataTeams = getTeams();
+    const myTeam = dataTeams.teams.find((team) => team.id == teamId);
+    if (!myTeam) {
+      throw new Error('That team does not exist');
+    }
+    res.status(200).json({ myTeam });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting a team: ${error.message}`,
+    });
+  }
 });
 
 app.put('/reset-teams', (req, res) => {
