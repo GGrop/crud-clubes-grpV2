@@ -58,11 +58,15 @@ document.querySelector('#delete-team-form').onsubmit = async (e) => {
 };
 
 document.querySelector('#edit-team-button').onclick = async () => {
-  removeContent();
-  const { dataset } = document.querySelector('#label-team-tla');
-  const { tla } = dataset;
-  await createEditableTeamCard(await getATeam(tla));
-  handleHidden(1, '#content-edit-team');
+  try {
+    removeContent();
+    const { dataset } = document.querySelector('#content-team');
+    const { id } = dataset;
+    await createEditableTeamCard(await getATeam(id));
+    handleHidden(1, '#content-edit-team');
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
 
 document.querySelector('#edit-team-form').onsubmit = async (e) => {
