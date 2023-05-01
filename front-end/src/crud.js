@@ -52,7 +52,7 @@ document.querySelector('#delete-team-form').onsubmit = async (e) => {
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
-  } catch (err) {
+  } catch (error) {
     handleHidden(1, '#alert-error');
   }
 };
