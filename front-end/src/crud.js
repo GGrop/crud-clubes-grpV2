@@ -1,5 +1,5 @@
 import { getATeam, getTeamsList } from './services/teamsServices.js';
-import { handleLoading } from './ui/loading/loading.js';
+import handleLoading from './ui/loading/loading.js';
 import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
