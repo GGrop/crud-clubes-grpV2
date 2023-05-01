@@ -65,7 +65,7 @@ function createNewTeam(
     address,
     website,
     founded,
-    crestUrl: `/shields/${image}`,
+    crestUrl: `${URL}/uploads/shields/${image}`,
   };
   return newTeam;
 }
