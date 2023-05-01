@@ -7,6 +7,7 @@ export function mapTeam(team) {
   } = team.myTeam;
 
   return new Team(
+    id,
     name,
     tla,
     area.name,
