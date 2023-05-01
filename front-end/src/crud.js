@@ -17,7 +17,7 @@ import {
 async function handleTeam(id) {
   handleLoading(true);
   removeContent();
-  await createTeamCard(await getATeam(tla));
+  await createTeamCard(await getATeam(id));
   handleHidden(1, '#content-team');
   handleLoading(false);
 }
