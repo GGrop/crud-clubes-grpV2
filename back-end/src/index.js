@@ -161,31 +161,6 @@ app.put('/reset-teams', (req, res) => {
   }
 });
 
-  const {
-    country, name, tla, address, website, founded,
-  } = req.body;
-  const dataTeams = getTeams();
-  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
-  const newTeams = dataTeams.teams.filter((team) => team.tla !== teamTla);
-  const editedTeam = {
-    ...myTeam,
-    area: {
-      name: country,
-    },
-    name,
-    tla: newTla,
-    address,
-    website,
-    founded,
-  };
-  if (req.file) {
-    editedTeam.crestUrl = `/shields/${req.file.filename}`;
-  }
-  newTeams.push(editedTeam);
-  fs.writeFile('./data/teams.db.json', JSON.stringify(newTeams), (err) => {
-    res.status(200).json({
-      editedTeam,
-    });
   });
 app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
     const teamId = req.params.id;
