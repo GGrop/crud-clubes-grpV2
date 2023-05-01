@@ -50,7 +50,7 @@ function createNewTeam(
   id,
 ) {
   const dataTeams = getTeams();
-  const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
+  const isDuplicated = dataTeams.teams.find((team) => team.tla === tla);
   let newTeam = {};
   if (isDuplicated) {
     return newTeam;
