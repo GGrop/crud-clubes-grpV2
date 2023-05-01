@@ -113,8 +113,12 @@ document.querySelector('#reset-teams').onclick = async () => {
   }
 };
 document.querySelector('#create-team').onclick = async () => {
-  removeContent();
-  handleHidden(1, '#content-new-team');
+  try {
+    removeContent();
+    handleHidden(1, '#content-new-team');
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
 document.querySelector('#home').onclick = async () => {
   await handleTeamList();
