@@ -143,13 +143,22 @@ app.get('/team/:id', (req, res) => {
 });
 
 app.put('/reset-teams', (req, res) => {
-  // si escribimo fs.writeFileSync nunca me devuelve nada en postman, por eso uso fs.writeFile, aplica para TODAS
-  fs.writeFile('./data/teams.db.json', fs.readFileSync('./data/teams.json'), (err) => {
-    res.status(200).json({
-      message: 'success reset',
-      dataTeams: getTeams(),
-    });
-  });
+  try {
+    fs.writeFileSync(
+      './data/teams.db.json',
+      fs.readFileSync('./data/teams.json'),
+      (err) => {
+        if (err) {
+          throw new Error(err);
+        }
+      },
+    );
+    res.status(200).json({ message: 'success reset', dataTeams: getTeams() });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: `Something went wrong while reset teams: ${error}` });
+  }
 });
 
   const {
