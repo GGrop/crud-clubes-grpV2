@@ -9,7 +9,7 @@ function stopLoading($loading) {
   // handleBlockUser(0);
 }
 
-export function handleLoading(state) {
+export default function handleLoading(state) {
   const $loading = document.querySelector('#loading');
   if (state) {
     startLoading($loading);
