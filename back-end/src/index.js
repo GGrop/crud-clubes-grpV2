@@ -11,10 +11,23 @@ const { v4: uuid } = require('uuid');
 
 const multer = require('multer');
 
-const upload = multer({ dest: './uploads/shields' });
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/shields');
+  },
+  filename(req, file, cb) {
+    if (file) {
+      const extension = file.originalname.split('.')[1];
+      const nameFile = req.body.name.split(' ').join('-');
+      cb(null, `${nameFile}-${Date.now()}.${extension}`);
+    }
+  },
+});
+
+const upload = multer({ storage });
+app.use('/uploads', express.static('./uploads'));
 app.use(cors());
 app.use(express.json());
-app.use(express.static(`${__dirname}/uploads`));
 
 function getTeams() {
   const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
