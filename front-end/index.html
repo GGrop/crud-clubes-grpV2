@@ -170,11 +170,6 @@
     <div id="content-edit-team" class="content hidden">
       <form class="new-team-form mt-4 p-4 mx-auto no-select" enctype="multipart/form-data" id="edit-team-form">
         <h1>Edit Team:</h1>
-        <label for="shield">Shield: </label>
-        <div class="form-group">
-          <img class="edit-shield mb-3" alt="" id="src-edit-img"/>
-          <input type="file" name="shield" id="shield" />
-        </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Name:</label>
           <input
@@ -234,6 +229,11 @@
             placeholder="Enter founded"
             id="input-edit-founded"
           />
+        </div>
+        <div class="form-group">
+          <label for="shield">Shield: </label>
+          <img class="edit-shield mb-3" id="src-edit-img"/>
+          <input type="file" name="shield" id="shield" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="submit" class="btn btn-secondary">Back</button>
