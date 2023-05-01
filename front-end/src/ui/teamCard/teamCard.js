@@ -6,5 +6,6 @@ export default function createTeamCard(team) {
   document.querySelector('#label-team-address').textContent = team.address;
   document.querySelector('#label-team-country').textContent = team.country;
   document.querySelector('#label-team-website').textContent = team.website;
+  document.querySelector('#website-href').href = team.website;
   document.querySelector('#label-team-founded').textContent = team.founded;
 }
