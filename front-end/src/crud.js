@@ -4,9 +4,15 @@ import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
 import {
-  createTeam as createTeamApi, deleteTeam as deleteTeamApi, editTeam as editTeamApi, resetTeams,
+  createTeam as createTeamApi,
+  deleteTeam as deleteTeamApi,
+  editTeam as editTeamApi,
+  resetTeams,
 } from './api/teamsAPI.js';
-import { handleHidden, handleHiddenAll } from './ui/handleHidden/handleHidden.js';
+import {
+  handleHidden,
+  handleHiddenAll,
+} from './ui/handleHidden/handleHidden.js';
 
 async function handleTeam(id) {
   handleLoading(true);
