@@ -14,8 +14,8 @@ export function getTeamsList() {
   return teamsList;
 }
 
-export function getATeam(tla) {
-  const team = JSON.parse(localStorage.getItem(makeKey(tla)));
+export function getATeam(id) {
+  const team = JSON.parse(localStorage.getItem(makeKey(id)));
   if (team === null) {
     throw new Error('there isn´t a team in the storage yet');
   }

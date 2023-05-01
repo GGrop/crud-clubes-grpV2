@@ -72,13 +72,13 @@ app.get('/teams', (req, res) => {
   });
 });
 
-app.get('/team/:tla', (req, res) => {
-  const teamTla = req.params.tla;
   const dataTeams = getTeams();
   const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
   res.status(200).json({
     myTeam,
   });
+app.get('/team/:id', (req, res) => {
+    const teamId = req.params.id;
 });
 
 app.put('/reset-teams', (req, res) => {
@@ -91,12 +91,9 @@ app.put('/reset-teams', (req, res) => {
   });
 });
 
-app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
-  const teamTla = req.params.tla;
   const {
     country, name, tla, address, website, founded,
   } = req.body;
-  const newTla = tla.toUpperCase();
   const dataTeams = getTeams();
   const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
   const newTeams = dataTeams.teams.filter((team) => team.tla !== teamTla);
@@ -120,11 +117,13 @@ app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
       editedTeam,
     });
   });
+app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
+    const teamId = req.params.id;
 });
 
-function deleteTeam(tla) {
-  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
-  const index = teams.findIndex((team) => team.tla === tla);
+function deleteTeam(id) {
+  const teams = getTeams();
+  const index = teams.teams.findIndex((team) => team.id == id);
   if (index !== -1) {
     teams.splice(index, 1);
     fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams));
@@ -135,12 +134,12 @@ function deleteTeam(tla) {
 
 // hacer metodo delete y test
 app.delete('/team/:tla/delete', (req, res) => {
-  const { tla } = req.params;
-  const eliminado = deleteTeam(tla);
   if (eliminado) {
     res.status(200).json({ message: 'The team has been deleted' });
   } else {
     res.status(404).json({ message: 'that team doesn´t exist' });
+    const teamId = req.params.id;
+    const isDeleted = deleteTeam(teamId);
   }
 });
 

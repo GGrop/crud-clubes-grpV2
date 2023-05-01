@@ -8,7 +8,7 @@ import {
 } from './api/teamsAPI.js';
 import { handleHidden, handleHiddenAll } from './ui/handleHidden/handleHidden.js';
 
-async function handleTeam(tla) {
+async function handleTeam(id) {
   handleLoading(true);
   removeContent();
   await createTeamCard(await getATeam(tla));
@@ -40,9 +40,9 @@ document.querySelector('#delete-team-button').onclick = async () => {
 document.querySelector('#delete-team-form').onsubmit = async (e) => {
   try {
     e.preventDefault();
-    const { dataset } = document.querySelector('#label-team-tla');
-    const { tla } = dataset;
-    await deleteTeamApi(tla);
+    const { dataset } = document.querySelector('#content-team');
+    const { id } = dataset;
+    await deleteTeamApi(id);
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
@@ -62,11 +62,11 @@ document.querySelector('#edit-team-button').onclick = async () => {
 document.querySelector('#edit-team-form').onsubmit = async (e) => {
   try {
     e.preventDefault();
-    const { dataset } = document.querySelector('#input-edit-tla');
-    const { tla } = dataset;
+    const { dataset } = document.querySelector('#content-edit-team');
+    const { id } = dataset;
     const form = e.target;
     const formData = new FormData(form);
-    editTeamApi(tla, formData);
+    editTeamApi(id, formData);
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
