@@ -71,20 +71,41 @@ function createNewTeam(
 }
 
 app.post('/new-team', upload.single('shield'), (req, res) => {
-  const dataTeams = getTeams();
-  const {
-    name, tla, country, address, website, founded,
-  } = req.body;
-  const image = req.file.filename;
-  const newTeam = createNewTeam(name, tla, country, address, website, founded, image);
-  if (!newTeam) {
-    console.log('mostrar error');
-  } else {
-    dataTeams.teams.push(newTeam);
-    fs.writeFile('./data/teams.db.json', JSON.stringify(dataTeams.teams), (err) => {
-      res.status(200).json({
-        dataTeams: getTeams(),
-      });
+  try {
+    const dataTeams = getTeams();
+    const {
+      name, tla, country, address, website, founded,
+    } = req.body;
+    const id = uuid();
+    const image = req.file.filename;
+    const newTeam = createNewTeam(
+      name,
+      tla,
+      country,
+      address,
+      website,
+      founded,
+      image,
+      id,
+    );
+    if (!newTeam) {
+      throw new Error('a team with that TLA has already been created');
+    } else {
+      dataTeams.teams.push(newTeam);
+      fs.writeFileSync(
+        './data/teams.db.json',
+        JSON.stringify(dataTeams.teams),
+        (error) => {
+          if (error) {
+            throw new Error(error);
+          }
+        },
+      );
+      res.status(200).json({ dataTeams: getTeams() });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting teams: ${error.message}`,
     });
   }
 });
