@@ -221,8 +221,8 @@ function deleteTeam(id) {
   const teams = getTeams();
   const index = teams.teams.findIndex((team) => team.id == id);
   if (index !== -1) {
-    teams.splice(index, 1);
-    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams));
+    teams.teams.splice(index, 1);
+    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams.teams));
     return true;
   }
   return false;
