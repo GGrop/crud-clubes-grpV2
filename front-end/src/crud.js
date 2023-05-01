@@ -112,6 +112,7 @@ document.querySelector('#reset-teams').onclick = async () => {
     handleHidden(1, '#alert-error');
   }
 };
+
 document.querySelector('#create-team').onclick = async () => {
   try {
     removeContent();
