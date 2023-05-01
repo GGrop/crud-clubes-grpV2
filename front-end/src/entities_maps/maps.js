@@ -3,7 +3,6 @@ import TeamList from '../entities/teamList.js';
 
 export function mapTeam(team) {
   const {
-  // console.log(country)
     id, name, tla, area, crestUrl, address, website, founded,
   } = team.myTeam;
 
