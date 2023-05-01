@@ -1,4 +1,4 @@
-function populateTable(team, index, callBackFunction = () => {}) {
+function populateTable(team, index, callBackDetail = () => {}) {
   const $team = document.createElement('tr');
 
   const $tdIndex = document.createElement('td');
