@@ -104,9 +104,13 @@ document.querySelector('#new-team-form').onsubmit = async (e) => {
 };
 
 document.querySelector('#reset-teams').onclick = async () => {
-  resetTeams();
-  localStorage.clear();
-  handleTeamList();
+  try {
+    resetTeams();
+    localStorage.clear();
+    handleTeamList();
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
 document.querySelector('#create-team').onclick = async () => {
   removeContent();
