@@ -56,6 +56,7 @@ function createNewTeam(
     return false;
   }
   newTeam = {
+    id,
     name,
     tla,
     area: {
