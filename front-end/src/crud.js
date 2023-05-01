@@ -1,17 +1,23 @@
 import { getATeam, getTeamsList } from './services/teamsServices.js';
-import { handleLoading } from './ui/loading/loading.js';
+import handleLoading from './ui/loading/loading.js';
 import CreateTeamList from './ui/teamsLists/teamLists.js';
 import createTeamCard from './ui/teamCard/teamCard.js';
 import createEditableTeamCard from './ui/teamEdit/teamEdit.js';
 import {
-  createTeam as createTeamApi, deleteTeam as deleteTeamApi, editTeam as editTeamApi, resetTeams,
+  createTeam as createTeamApi,
+  deleteTeam as deleteTeamApi,
+  editTeam as editTeamApi,
+  resetTeams,
 } from './api/teamsAPI.js';
-import { handleHidden, handleHiddenAll } from './ui/handleHidden/handleHidden.js';
+import {
+  handleHidden,
+  handleHiddenAll,
+} from './ui/handleHidden/handleHidden.js';
 
-async function handleTeam(tla) {
+async function handleTeam(id) {
   handleLoading(true);
   removeContent();
-  await createTeamCard(await getATeam(tla));
+  await createTeamCard(await getATeam(id));
   handleHidden(1, '#content-team');
   handleLoading(false);
 }
@@ -40,33 +46,37 @@ document.querySelector('#delete-team-button').onclick = async () => {
 document.querySelector('#delete-team-form').onsubmit = async (e) => {
   try {
     e.preventDefault();
-    const { dataset } = document.querySelector('#label-team-tla');
-    const { tla } = dataset;
-    await deleteTeamApi(tla);
+    const { dataset } = document.querySelector('#content-team');
+    const { id } = dataset;
+    await deleteTeamApi(id);
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
-  } catch (err) {
+  } catch (error) {
     handleHidden(1, '#alert-error');
   }
 };
 
 document.querySelector('#edit-team-button').onclick = async () => {
-  removeContent();
-  const { dataset } = document.querySelector('#label-team-tla');
-  const { tla } = dataset;
-  await createEditableTeamCard(await getATeam(tla));
-  handleHidden(1, '#content-edit-team');
+  try {
+    removeContent();
+    const { dataset } = document.querySelector('#content-team');
+    const { id } = dataset;
+    await createEditableTeamCard(await getATeam(id));
+    handleHidden(1, '#content-edit-team');
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
 
 document.querySelector('#edit-team-form').onsubmit = async (e) => {
   try {
     e.preventDefault();
-    const { dataset } = document.querySelector('#input-edit-tla');
-    const { tla } = dataset;
+    const { dataset } = document.querySelector('#content-edit-team');
+    const { id } = dataset;
     const form = e.target;
     const formData = new FormData(form);
-    editTeamApi(tla, formData);
+    editTeamApi(id, formData);
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
@@ -94,13 +104,22 @@ document.querySelector('#new-team-form').onsubmit = async (e) => {
 };
 
 document.querySelector('#reset-teams').onclick = async () => {
-  resetTeams();
-  localStorage.clear();
-  handleTeamList();
+  try {
+    resetTeams();
+    localStorage.clear();
+    handleTeamList();
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
+
 document.querySelector('#create-team').onclick = async () => {
-  removeContent();
-  handleHidden(1, '#content-new-team');
+  try {
+    removeContent();
+    handleHidden(1, '#content-new-team');
+  } catch (error) {
+    handleHidden(1, '#alert-error');
+  }
 };
 document.querySelector('#home').onclick = async () => {
   await handleTeamList();

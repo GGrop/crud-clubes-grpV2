@@ -1,5 +1,6 @@
 export default class Team {
-  constructor(name, tla, country, crestUrl, address, website, founded) {
+  constructor(id, name, tla, country, crestUrl, address, website, founded) {
+    this.id = id;
     this.name = name;
     this.tla = tla;
     this.country = country;

@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Page Title</title>
+  <title>Gran DT</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
   <link
@@ -67,7 +67,6 @@
       <div class="card mt-4 mx-auto" style="width: 18rem;">
         <img
           class="card-img-top"
-          alt="shield of club {{{data.name}}}"
           id="src-team-img"
         />
         <div class="card-body">
@@ -77,7 +76,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item" id="label-team-country"></li>
           <li class="list-group-item" id="label-team-address"></li>
-          <a href="{{{data.website}}}">
+          <a href="" id="website-href">
             <li class="list-group-item" id="label-team-website"></li>
           </a>
           <li class="list-group-item" id="label-team-founded">
@@ -171,11 +170,6 @@
     <div id="content-edit-team" class="content hidden">
       <form class="new-team-form mt-4 p-4 mx-auto no-select" enctype="multipart/form-data" id="edit-team-form">
         <h1>Edit Team:</h1>
-        <label for="shield">Shield: </label>
-        <div class="form-group">
-          <img class="edit-shield mb-3" alt="" id="src-edit-img"/>
-          <input type="file" name="shield" id="shield" />
-        </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Name:</label>
           <input
@@ -235,6 +229,11 @@
             placeholder="Enter founded"
             id="input-edit-founded"
           />
+        </div>
+        <div class="form-group">
+          <label for="shield">Shield: </label>
+          <img class="edit-shield mb-3" id="src-edit-img"/>
+          <input type="file" name="shield" id="shield" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="submit" class="btn btn-secondary">Back</button>

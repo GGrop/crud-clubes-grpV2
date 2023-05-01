@@ -4,12 +4,12 @@ export async function getTeamList() {
   return (await fetch(`${URL}/teams`)).json();
 }
 
-export async function getATeam(tla) {
-  return (await fetch(`${URL}/team/${tla}`)).json();
+export async function getATeam(id) {
+  return (await fetch(`${URL}/team/${id}`)).json();
 }
 
-export async function editTeam(tla, dataForm) {
-  await fetch(`${URL}/team/${tla}/edit`, {
+export async function editTeam(id, dataForm) {
+  await fetch(`${URL}/team/${id}/edit`, {
     method: 'PUT',
     body: dataForm,
   });
@@ -21,8 +21,8 @@ export async function resetTeams() {
   });
 }
 
-export async function deleteTeam(tla) {
-  await fetch(`${URL}/team/${tla}/delete`, {
+export async function deleteTeam(id) {
+  await fetch(`${URL}/team/${id}/delete`, {
     method: 'DELETE',
   });
 }

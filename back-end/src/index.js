@@ -4,15 +4,30 @@ const cors = require('cors');
 const app = express();
 
 const PORT = '8007';
+const URL = 'http://localhost:8007';
 
 const fs = require('fs');
+const { v4: uuid } = require('uuid');
 
 const multer = require('multer');
 
-const upload = multer({ dest: './uploads/shields' });
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/shields');
+  },
+  filename(req, file, cb) {
+    if (file) {
+      const extension = file.originalname.split('.')[1];
+      const nameFile = req.body.name.split(' ').join('-');
+      cb(null, `${nameFile}-${Date.now()}.${extension}`);
+    }
+  },
+});
+
+const upload = multer({ storage });
+app.use('/uploads', express.static('./uploads'));
 app.use(cors());
 app.use(express.json());
-app.use(express.static(`${__dirname}/uploads`));
 
 function getTeams() {
   const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
@@ -24,14 +39,24 @@ function getTeams() {
   return dataTeams;
 }
 
-function createNewTeam(name, tla, country, address, website, founded, image) {
+function createNewTeam(
+  name,
+  tla,
+  country,
+  address,
+  website,
+  founded,
+  image,
+  id,
+) {
   const dataTeams = getTeams();
-  const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
+  const isDuplicated = dataTeams.teams.find((team) => team.tla === tla);
   let newTeam = {};
   if (isDuplicated) {
-    return newTeam;
+    return false;
   }
   newTeam = {
+    id,
     name,
     tla,
     area: {
@@ -40,107 +65,183 @@ function createNewTeam(name, tla, country, address, website, founded, image) {
     address,
     website,
     founded,
-    crestUrl: `/shields/${image}`,
+    crestUrl: `${URL}/uploads/shields/${image}`,
   };
   return newTeam;
 }
 
 app.post('/new-team', upload.single('shield'), (req, res) => {
-  const dataTeams = getTeams();
-  const {
-    name, tla, country, address, website, founded,
-  } = req.body;
-  const image = req.file.filename;
-  const newTeam = createNewTeam(name, tla, country, address, website, founded, image);
-  if (!newTeam) {
-    console.log('mostrar error');
-  } else {
-    dataTeams.teams.push(newTeam);
-    fs.writeFile('./data/teams.db.json', JSON.stringify(dataTeams.teams), (err) => {
-      res.status(200).json({
-        dataTeams: getTeams(),
-      });
+  try {
+    const dataTeams = getTeams();
+    const {
+      name, tla, country, address, website, founded,
+    } = req.body;
+    const id = uuid();
+    const image = req.file.filename;
+    const newTeam = createNewTeam(
+      name,
+      tla,
+      country,
+      address,
+      website,
+      founded,
+      image,
+      id,
+    );
+    if (!newTeam) {
+      throw new Error('a team with that TLA has already been created');
+    } else {
+      dataTeams.teams.push(newTeam);
+      fs.writeFileSync(
+        './data/teams.db.json',
+        JSON.stringify(dataTeams.teams),
+        (error) => {
+          if (error) {
+            throw new Error(error);
+          }
+        },
+      );
+      res.status(200).json({ dataTeams: getTeams() });
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting teams: ${error.message}`,
     });
   }
 });
-// bucle infinito en testing
 
 app.get('/teams', (req, res) => {
-  const dataTeams = getTeams();
-  res.status(200).json({
-    dataTeams,
-  });
+  try {
+    const dataTeams = getTeams();
+    res.status(200).json({
+      dataTeams,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting teams: ${error.message}`,
+    });
+  }
 });
 
-app.get('/team/:tla', (req, res) => {
-  const teamTla = req.params.tla;
-  const dataTeams = getTeams();
-  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
-  res.status(200).json({
-    myTeam,
-  });
+app.get('/team/:id', (req, res) => {
+  try {
+    const teamId = req.params.id;
+    if (!teamId) {
+      throw new Error('Id is wrong');
+    }
+    const dataTeams = getTeams();
+    const myTeam = dataTeams.teams.find((team) => team.id == teamId);
+    if (!myTeam) {
+      throw new Error('That team does not exist');
+    }
+    res.status(200).json({ myTeam });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting a team: ${error.message}`,
+    });
+  }
 });
 
 app.put('/reset-teams', (req, res) => {
-  // si escribimo fs.writeFileSync nunca me devuelve nada en postman, por eso uso fs.writeFile, aplica para TODAS
-  fs.writeFile('./data/teams.db.json', fs.readFileSync('./data/teams.json'), (err) => {
-    res.status(200).json({
-      message: 'success reset',
-      dataTeams: getTeams(),
-    });
-  });
-});
-
-app.put('/team/:tla/edit', upload.single('shield'), (req, res) => {
-  const teamTla = req.params.tla;
-  const {
-    country, name, tla, address, website, founded,
-  } = req.body;
-  const newTla = tla.toUpperCase();
-  const dataTeams = getTeams();
-  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
-  const newTeams = dataTeams.teams.filter((team) => team.tla !== teamTla);
-  const editedTeam = {
-    ...myTeam,
-    area: {
-      name: country,
-    },
-    name,
-    tla: newTla,
-    address,
-    website,
-    founded,
-  };
-  if (req.file) {
-    editedTeam.crestUrl = `/shields/${req.file.filename}`;
+  try {
+    fs.writeFileSync(
+      './data/teams.db.json',
+      fs.readFileSync('./data/teams.json'),
+      (err) => {
+        if (err) {
+          throw new Error(err);
+        }
+      },
+    );
+    res.status(200).json({ message: 'success reset', dataTeams: getTeams() });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: `Something went wrong while reset teams: ${error}` });
   }
-  newTeams.push(editedTeam);
-  fs.writeFile('./data/teams.db.json', JSON.stringify(newTeams), (err) => {
-    res.status(200).json({
-      editedTeam,
-    });
-  });
 });
 
-function deleteTeam(tla) {
-  const teams = JSON.parse(fs.readFileSync('./data/teams.db.json'));
-  const index = teams.findIndex((team) => team.tla === tla);
+function editTeam(teams, id, newTeam) {
+  const result = teams.teams.map((team) => {
+    if (team.id == id) {
+      return {
+        ...team,
+        name: newTeam.name || team.name,
+        area: {
+          name: newTeam.country || team.area.name,
+        },
+        tla: newTeam.tla || team.tla,
+        address: newTeam.address || team.address,
+        website: newTeam.website || team.website,
+        founded: newTeam.founded || team.founded,
+        crestUrl: `${URL}/uploads/shields/${newTeam.crestUrl}` || team.crestUrl,
+      };
+    }
+    return team;
+  });
+  return result;
+}
+
+app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
+  try {
+    const teamId = req.params.id;
+    if (!teamId) {
+      throw new Error('Id is wrong');
+    }
+    const crestUrl = req.file.filename;
+    const {
+      name, country, tla, address, website, founded,
+    } = req.body;
+    const newTeam = {
+      teamId,
+      name,
+      country,
+      tla,
+      address,
+      website,
+      founded,
+      crestUrl,
+    };
+    const teams = getTeams();
+    const editedTeams = editTeam(teams, teamId, newTeam);
+    fs.writeFile('./data/teams.db.json', JSON.stringify(editedTeams), (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });
+    res.status(200).json({ message: 'success', editedTeams });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while edit a team: ${error.message}`,
+    });
+  }
+});
+
+function deleteTeam(id) {
+  const teams = getTeams();
+  const index = teams.teams.findIndex((team) => team.id == id);
   if (index !== -1) {
-    teams.splice(index, 1);
-    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams));
+    teams.teams.splice(index, 1);
+    fs.writeFileSync('./data/teams.db.json', JSON.stringify(teams.teams));
     return true;
   }
   return false;
 }
 
-// hacer metodo delete y test
-app.delete('/team/:tla/delete', (req, res) => {
-  const { tla } = req.params;
-  const eliminado = deleteTeam(tla);
-  if (eliminado) {
-    res.status(200).json({ message: 'The team has been deleted' });
-  } else {
-    res.status(404).json({ message: 'that team doesn´t exist' });
+app.delete('/team/:id/delete', (req, res) => {
+  try {
+    const teamId = req.params.id;
+    const isDeleted = deleteTeam(teamId);
+    if (!isDeleted) {
+      throw new Error('That team doesnt exist');
+    }
+    res
+      .status(200)
+      .json({ message: 'delete successfully', dataTeams: getTeams() });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while deleting a team: ${error.message}`,
+    });
   }
 });
 

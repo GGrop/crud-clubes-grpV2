@@ -1,4 +1,4 @@
-function populateTable(team, index, callBackFunction = () => {}) {
+function populateTable(team, index, callBackDetail = () => {}) {
   const $team = document.createElement('tr');
 
   const $tdIndex = document.createElement('td');
@@ -41,7 +41,7 @@ function populateTable(team, index, callBackFunction = () => {}) {
   $Detail.className = 'btn btn-outline-dark';
   $Detail.type = 'button';
   $Detail.textContent = 'view';
-  $Detail.onclick = () => callBackFunction(team.tla);
+  $Detail.onclick = () => callBackDetail(team.id);
   $tdDetail.appendChild($Detail);
 
   document.querySelector('#tbody').appendChild($team);

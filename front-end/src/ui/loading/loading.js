@@ -6,10 +6,9 @@ function startLoading($loading) {
 function stopLoading($loading) {
   $loading.classList.add('hidden');
   document.querySelector('#blackscreen').classList.add('hidden');
-  // handleBlockUser(0);
 }
 
-export function handleLoading(state) {
+export default function handleLoading(state) {
   const $loading = document.querySelector('#loading');
   if (state) {
     startLoading($loading);
