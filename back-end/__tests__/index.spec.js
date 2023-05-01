@@ -5,7 +5,6 @@ const TEAM_FIXTURE = require('../data/teams.json');
 
 const baseURL = 'http://localhost:8007';
 
-
 afterEach(async () => {
   await request(baseURL).put('/reset-teams');
 });
