@@ -228,14 +228,20 @@ function deleteTeam(id) {
   return false;
 }
 
-// hacer metodo delete y test
-app.delete('/team/:tla/delete', (req, res) => {
-  if (eliminado) {
-    res.status(200).json({ message: 'The team has been deleted' });
-  } else {
-    res.status(404).json({ message: 'that team doesn´t exist' });
+app.delete('/team/:id/delete', (req, res) => {
+  try {
     const teamId = req.params.id;
     const isDeleted = deleteTeam(teamId);
+    if (!isDeleted) {
+      throw new Error('That team doesnt exist');
+    }
+    res
+      .status(200)
+      .json({ message: 'delete successfully', dataTeams: getTeams() });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while deleting a team: ${error.message}`,
+    });
   }
 });
 
