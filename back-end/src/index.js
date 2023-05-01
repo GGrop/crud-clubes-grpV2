@@ -111,17 +111,18 @@ app.post('/new-team', upload.single('shield'), (req, res) => {
 });
 
 app.get('/teams', (req, res) => {
-  const dataTeams = getTeams();
-  res.status(200).json({
-    dataTeams,
-  });
+  try {
+    const dataTeams = getTeams();
+    res.status(200).json({
+      dataTeams,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while getting teams: ${error.message}`,
+    });
+  }
 });
 
-  const dataTeams = getTeams();
-  const myTeam = dataTeams.teams.find((team) => team.tla === teamTla);
-  res.status(200).json({
-    myTeam,
-  });
 app.get('/team/:id', (req, res) => {
     const teamId = req.params.id;
 });
