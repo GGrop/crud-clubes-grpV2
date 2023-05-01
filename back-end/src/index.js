@@ -109,7 +109,6 @@ app.post('/new-team', upload.single('shield'), (req, res) => {
     });
   }
 });
-// bucle infinito en testing
 
 app.get('/teams', (req, res) => {
   const dataTeams = getTeams();
