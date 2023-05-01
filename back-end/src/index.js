@@ -183,7 +183,38 @@ function editTeam(teams, id, newTeam) {
 }
 
 app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
+  try {
     const teamId = req.params.id;
+    if (!teamId) {
+      throw new Error('Id is wrong');
+    }
+    const crestUrl = req.file.filename;
+    const {
+      name, country, tla, address, website, founded,
+    } = req.body;
+    const newTeam = {
+      teamId,
+      name,
+      country,
+      tla,
+      address,
+      website,
+      founded,
+      crestUrl,
+    };
+    const teams = getTeams();
+    const editedTeams = editTeam(teams, teamId, newTeam);
+    fs.writeFile('./data/teams.db.json', JSON.stringify(editedTeams), (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });
+    res.status(200).json({ message: 'success', editedTeams });
+  } catch (error) {
+    res.status(400).json({
+      message: `Something went wrong while edit a team: ${error.message}`,
+    });
+  }
 });
 
 function deleteTeam(id) {
