@@ -161,7 +161,27 @@ app.put('/reset-teams', (req, res) => {
   }
 });
 
+function editTeam(teams, id, newTeam) {
+  const result = teams.teams.map((team) => {
+    if (team.id == id) {
+      return {
+        ...team,
+        name: newTeam.name || team.name,
+        area: {
+          name: newTeam.country || team.area.name,
+        },
+        tla: newTeam.tla || team.tla,
+        address: newTeam.address || team.address,
+        website: newTeam.website || team.website,
+        founded: newTeam.founded || team.founded,
+        crestUrl: `${URL}/uploads/shields/${newTeam.crestUrl}` || team.crestUrl,
+      };
+    }
+    return team;
   });
+  return result;
+}
+
 app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
     const teamId = req.params.id;
 });
