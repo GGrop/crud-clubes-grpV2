@@ -39,7 +39,16 @@ function getTeams() {
   return dataTeams;
 }
 
-function createNewTeam(name, tla, country, address, website, founded, image) {
+function createNewTeam(
+  name,
+  tla,
+  country,
+  address,
+  website,
+  founded,
+  image,
+  id,
+) {
   const dataTeams = getTeams();
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla.toUpperCase());
   let newTeam = {};
