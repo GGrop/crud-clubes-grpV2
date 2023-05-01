@@ -53,7 +53,7 @@ function createNewTeam(
   const isDuplicated = dataTeams.teams.find((team) => team.tla === tla);
   let newTeam = {};
   if (isDuplicated) {
-    return newTeam;
+    return false;
   }
   newTeam = {
     name,
