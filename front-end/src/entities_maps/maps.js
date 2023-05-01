@@ -18,11 +18,8 @@ export function mapTeam(team) {
   );
 }
 
-export function mapTeamsList(teamListData) {
-  const {
-    length,
-    teams,
-  } = teamListData.dataTeams;
+export function mapTeamsList(teamList) {
+  const { length, teams } = teamList.dataTeams;
 
   return new TeamList(
     length,
