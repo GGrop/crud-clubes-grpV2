@@ -80,6 +80,7 @@ document.querySelector('#edit-team-form').onsubmit = async (e) => {
     localStorage.clear();
     removeContent();
     handleHidden(1, '#alert-success');
+    document.querySelector('#shield').value = '';
   } catch (error) {
     handleHidden(1, '#alert-error');
   }
