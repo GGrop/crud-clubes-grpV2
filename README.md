@@ -1,3 +1,6 @@
+![Artboard23](https://user-images.githubusercontent.com/88691772/235659700-829dd7ba-cdcf-4f8a-83c9-1539cce5474b.png)
+
+
 # crud-clubes-grpV2
 
 Crud clubes v2 its a Gran DT demo with an API and a front-side. in this demo we can see, add and delete teams of a teams list.
