@@ -174,7 +174,7 @@ function editTeam(teams, id, newTeam) {
         address: newTeam.address || team.address,
         website: newTeam.website || team.website,
         founded: newTeam.founded || team.founded,
-        crestUrl: `${URL}/uploads/shields/${newTeam.crestUrl}` || team.crestUrl,
+        crestUrl: newTeam.crestUrl || team.crestUrl,
       };
     }
     return team;
@@ -188,7 +188,6 @@ app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
     if (!teamId) {
       throw new Error('Id is wrong');
     }
-    const crestUrl = req.file.filename;
     const {
       name, country, tla, address, website, founded,
     } = req.body;
@@ -200,8 +199,10 @@ app.put('/team/:id/edit', upload.single('shield'), (req, res) => {
       address,
       website,
       founded,
-      crestUrl,
     };
+    if (req.file) {
+      newTeam.crestUrl = `${URL}/uploads/shields/${req.file.filename}`;
+    }
     const teams = getTeams();
     const editedTeams = editTeam(teams, teamId, newTeam);
     fs.writeFile('./data/teams.db.json', JSON.stringify(editedTeams), (err) => {
