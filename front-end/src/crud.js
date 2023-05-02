@@ -105,8 +105,8 @@ document.querySelector('#new-team-form').onsubmit = async (e) => {
 
 document.querySelector('#reset-teams').onclick = async () => {
   try {
-    resetTeams();
     localStorage.clear();
+    resetTeams();
     handleTeamList();
   } catch (error) {
     handleHidden(1, '#alert-error');
