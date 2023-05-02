@@ -3,10 +3,13 @@
 
 # crud-clubes-grpV2
 
-Crud clubes v2 its a Gran DT demo with an API and a front-side. in this demo we can see, add and delete teams of a teams list.
+Crud clubes v2 its a full-stack proyect which simulate a GRAN DT . You can create, read, update and delete teams
 
+## App 🖥
 
-## Install and Run
+https://user-images.githubusercontent.com/88691772/235763989-4c748467-fc2f-4980-a735-8c0b742f6efe.mp4
+
+## Install and Run ⚙
 
 ```bash
   git clone https://github.com/GGrop/crud-clubes-grpV2
@@ -16,14 +19,18 @@ Crud clubes v2 its a Gran DT demo with an API and a front-side. in this demo we 
   crud-clubes-grpV2\front-end --> npm run start
 ```
 
-## Tech Stack
+## Tech Stack 🛠
 
 ```bash
   Node.js
+  express
+  Vanilla javascript
+  jest
   Multer
   UUID
   CORS
 ```
+
 
 ## 🤲🏻 Feedback
 
