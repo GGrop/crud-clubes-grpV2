@@ -108,6 +108,7 @@ document.querySelector('#reset-teams').onclick = async () => {
   try {
     localStorage.clear();
     resetTeams();
+    removeContent();
     handleTeamList();
   } catch (error) {
     handleHidden(1, '#alert-error');
